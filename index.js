@@ -30,24 +30,50 @@ app.post("/api", function (req, res) {
     console.log(JSON.stringify(req.body.result.resolvedQuery));
     console.log('not stringified', req.body.result.resolvedQuery);
 
-    var request = masterBot.textRequest(req.body.result.resolvedQuery, {
+    var masterBotRequest = masterBot.textRequest(req.body.result.resolvedQuery, {
         sessionId: req.body.sessionId
     });
 
-    request.on('response', function (response) {
+    masterBotRequest.on('response', function (response) {
         console.log('response');
+        if (response.result.action === 'flight.child.intent') {
+            console.log('inside flight child fn')
+            invokeFlightBot(function (req, data) {
+                console.log(data);
+                res.json('Data Sent');
+            });
+        }
         console.log(response);
     });
 
-    request.on('error', function (error) {
+    masterBotRequest.on('error', function (error) {
         console.log('error');
         console.log(error);
     });
 
-    request.end();
+    masterBotRequest.end();
     // res.json('Testing');
 });
 //POST EndPoint
+
+function invokeFlightBot(req, callback) {
+    var flightChildBotRequest = flightChildBot.textRequest(req.body.result.resolvedQuery, {
+        sessionId: req.body.sessionId
+    });
+
+    flightChildBotRequest.on('response', function (response) {
+        console.log('flight response');
+        console.log(response);
+    });
+
+    flightChildBotRequest.on('error', function (error) {
+        console.log(' flight error');
+        console.log(error);
+    });
+
+    flightChildBotRequest.end();
+    callback(null, null);
+};
 
 console.log("Server Running at Port : " + port);
 
