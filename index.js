@@ -28,15 +28,17 @@ app.get("/api", function (req, res) {
 app.post("/api", function (req, res) {
     console.log(JSON.stringify(req.body));
 
-    var request = masterBot.textRequest(req.body.resolvedQuery, {
+    var request = masterBot.textRequest('Hello', {
         sessionId: req.body.sessionId
     });
 
     request.on('response', function (response) {
+        console.log('response');
         console.log(response);
     });
 
     request.on('error', function (error) {
+        console.log('error');
         console.log(error);
     });
 
