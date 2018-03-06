@@ -27,8 +27,11 @@ app.get("/api", function (req, res) {
 
 app.post("/api", function (req, res) {
     console.log(JSON.stringify(req.body));
+    console.log(JSON.stringify(req.body.resolvedQuery));
+    console.log('not stringified', req.body.resolvedQuery);
 
-    var request = masterBot.textRequest('Hello', {
+
+    var request = masterBot.textRequest(req.body.resolvedQuery, {
         sessionId: req.body.sessionId
     });
 
