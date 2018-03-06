@@ -1,0 +1,16 @@
+{
+  "name": "masterchildbotpoc",
+  "version": "1.0.0",
+  "description": "Master Child Bot Communication POC",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Mubashshir Mohammed A",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  }
+}
