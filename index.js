@@ -27,23 +27,21 @@ app.get("/api", function (req, res) {
 
 app.post("/api", function (req, res) {
     console.log(JSON.stringify(req.body));
-    console.log(JSON.stringify(req.body.result.resolvedQuery));
-    console.log('not stringified', req.body.result.resolvedQuery);
 
     var masterBotRequest = masterBot.textRequest(req.body.result.resolvedQuery, {
         sessionId: req.body.sessionId
     });
 
     masterBotRequest.on('response', function (response) {
+        console.log(response);
         console.log('response');
         if (response.result.action === 'flight.child.intent') {
             console.log('inside flight child fn')
-            invokeFlightBot(function (req, data) {
+            invokeFlightBot(req, function (data) {
                 console.log(data);
                 res.json('Data Sent');
             });
         }
-        console.log(response);
     });
 
     masterBotRequest.on('error', function (error) {
